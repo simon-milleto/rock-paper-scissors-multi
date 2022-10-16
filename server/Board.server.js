@@ -2,11 +2,13 @@ export default class Board {
   constructor(io) {
     this.players = [];
     this.io = io;
+    this.isStarted = true;
     this.computePosition();
   }
 
   addPlayer(player) {
     this.players.push(player);
+    this.isStarted = true;
   }
 
   getPlayerById(playerId) {
@@ -23,10 +25,17 @@ export default class Board {
     }
 
     this.checkOverlaps();
+    const isFinished = this.checkIfFinished();
+
+    if (isFinished && this.isStarted) {
+      this.isStarted = false;
+      this.io.emit('game::end', this.players.map((player) => player.toJson()));
+    }
 
     setTimeout(() => {
       this.computePosition();
     }, 10);
+
   }
 
   isWinning(elem1, elem2) {
@@ -71,9 +80,27 @@ export default class Board {
       }
 
       if (elementToCopy && elementToReplace) {
+
+        elementToReplace.scores.hit += 1;
+        elementToReplace.scores.death += 1;
+
+        elementToCopy.scores.hit += 1;
+        elementToCopy.scores.kill += 1;
+
         elementToReplace.type = elementToCopy.type;
         this.io.emit('player::change-type', elementToReplace.toJson());
       }
     }
+  }
+  
+  checkIfFinished() {
+    if (this.players.length > 1) {
+      let firstType = this.players[0].type;
+      const isFinished = this.players.every((player) => player.type === firstType);
+
+      return isFinished;
+    }
+
+    return false;
   }
 }

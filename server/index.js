@@ -10,7 +10,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: ["http://localhost:5173", "http://192.168.1.19:5173"],
     methods: ['GET', 'POST']
   }
 });
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     setInterval(() => {
       // Update position from server to client to prevent mismatch
       io.to(socket.id).emit('players::update', board.players.map((player) => player.toJson()));
-    }, 10);
+    }, 20);
 	});
   
   socket.on('player::change-direction', (playerClient) => {

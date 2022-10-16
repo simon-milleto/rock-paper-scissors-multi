@@ -9,6 +9,11 @@ export default class Player {
     this.x = 0;
     this.y = 0;
     this.direction = null;
+    this.scores = {
+      hit: 0,
+      kill: 0,
+      death: 0
+    }
   }
 
   get xMax() {
@@ -60,7 +65,8 @@ export default class Player {
       type: this.type,
       x: this.x,
       y: this.y,
-      direction: this.direction
+      direction: this.direction,
+      scores: this.scores
     }
   }
 }

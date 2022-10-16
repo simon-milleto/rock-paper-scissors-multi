@@ -39,7 +39,7 @@ export default class Element {
     this.player.element = this;
   }
 
-  draw() {
+  computePosition() {
     switch (this.direction) {
       case 'up':
         this.y -= 3;
@@ -56,6 +56,10 @@ export default class Element {
       default:
         break;
     }
+  }
+
+  draw() {
+    // this.computePosition();
 
 		// The size of the emoji is set with the font
     this.context.font = `${this.size}px Helvetica sans-serif`;

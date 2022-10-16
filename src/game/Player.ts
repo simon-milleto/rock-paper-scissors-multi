@@ -7,6 +7,11 @@ export type PlayerServer = {
   direction: 'up'|'down'|'left'|'right'|null;
   x: number;
   y: number;
+  scores: {
+    hit: number;
+    kill: number;
+    death: number;
+  }
 }
 
 export default class Player {
@@ -36,7 +41,12 @@ export default class Player {
       type: this.element.type,
       direction: this.element.direction,
       x: this.element.x,
-      y: this.element.y
+      y: this.element.y,
+      scores: {
+        hit: 0,
+        kill: 0,
+        death: 0
+      }
     }
   }
 }

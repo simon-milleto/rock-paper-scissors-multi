@@ -20,7 +20,7 @@ export default class SocketHandler {
     return this.socket.id;
   }
 
-  onConnected() {
+  onceConnected() {
     return this.promiseConnected;
   }
 }
